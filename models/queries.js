@@ -1,4 +1,3 @@
-import { text } from "express";
 import pool from "../config/db.js";
 
 const addUserQuery = async (nombre, balance) => {
@@ -61,14 +60,14 @@ const addTransactionQuery = async (emisor, receptor, monto) => {
       values: [emisor],
     };
     const senderIdResult = await pool.query(senderIdQuery);
-    const emisorId = senderIdResult.rows[0].id; // Assuming username is unique
+    const emisorId = senderIdResult.rows[0].id;
 
     const receiverIdQuery = {
       text: "SELECT id FROM usuarios WHERE nombre = $1",
       values: [receptor],
     };
     const receiverIdResult = await pool.query(receiverIdQuery);
-    const receptorId = receiverIdResult.rows[0].id; // Assuming username is unique
+    const receptorId = receiverIdResult.rows[0].id;
 
     const query = {
       text: "INSERT INTO transferencias (emisor, receptor, monto, fecha) VALUES ($1, $2, $3, $4) RETURNING *",
